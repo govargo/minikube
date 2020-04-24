@@ -39,6 +39,9 @@ RUN adduser docker sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER docker
 RUN mkdir /home/docker/.ssh
+COPY hack/images/motd    /home/docker/motd
+RUN bash -c 'echo -e "\nif tty -s; then\n cat ~/motd\nfi\n" >> /home/docker/.bashrc'
+
 USER root
 # kind base-image entry-point expects a "kind" folder for product_name,product_uuid
 # https://github.com/kubernetes-sigs/kind/blob/master/images/base/files/usr/local/bin/entrypoint
